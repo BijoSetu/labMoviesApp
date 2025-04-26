@@ -4,7 +4,7 @@ import MovieDetails from "../components/movieDetails";
 import Grid from "@mui/material/Grid";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
-import { MoviePageProps} from "../types/interfaces";
+// import { MoviePageProps} from "../types/interfaces";
 import { useParams } from "react-router-dom";
 import { MovieDetailsProps, MovieImage} from "../types/interfaces";
 import { getMovie, getMovieImages } from "../api/tmdb-api";
@@ -30,7 +30,11 @@ const MoviePage: React.FC = () => {
 
   useEffect(() => {
     getMovie(id ?? "").then((movie) => {
-      setMovie(movie);
+
+       const favourites = JSON.parse(localStorage.getItem("favourites") || "[]");
+      const isFav = favourites.some((fav: MovieDetailsProps) => fav.id === movie.id);
+
+      setMovie({ ...movie, favourite: isFav });
     });
   }, [id]);
 
@@ -45,7 +49,7 @@ const MoviePage: React.FC = () => {
     <>
       {movie ? (
         <>
-          <MovieHeader {...movie} />
+          <MovieHeader {...movie}/>
           <Grid container spacing={5} style={{ padding: "15px" }}>
             <Grid item xs={3}>
               <div >
