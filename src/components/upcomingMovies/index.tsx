@@ -23,3 +23,5 @@ const MovieListPageTemplate: React.FC<MovieListPageTemplateProps> = ({ movies, t
   );
 }
 export default MovieListPageTemplate;
+
+// upcoming movies page already fixed
