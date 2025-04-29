@@ -75,3 +75,5 @@ const HomePage: React.FC = () => {
   );
 };
 export default HomePage;
+
+// caching already done for upcoming movies page
