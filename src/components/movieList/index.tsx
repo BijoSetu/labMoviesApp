@@ -1,5 +1,6 @@
 import React from "react";
 import Movie from "../movieCard/";
+import Tv from "../tvCard/";
 import Grid from "@mui/material/Grid";
 import { BaseMovieListProps } from "../../types/interfaces";
 
@@ -12,4 +13,7 @@ const MovieList: React.FC<BaseMovieListProps> = ({movies, action}) => {
   return movieCards;
 }
 
+
+
   export default MovieList;
+ 

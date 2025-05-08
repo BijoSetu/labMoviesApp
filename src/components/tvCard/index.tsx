@@ -11,7 +11,7 @@ import CalendarIcon from "@mui/icons-material/CalendarTodayTwoTone";
 import StarRateIcon from "@mui/icons-material/StarRate";
 import Grid from "@mui/material/Grid";
 import img from '../../images/film-poster-placeholder.png';
-import { BaseMovieProps } from "../../types/interfaces";
+import { BaseMovieProps, TVSeriesProps } from "../../types/interfaces";
 import { Link } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
 import { MoviesContext } from "../../contexts/moviesContext";
@@ -28,11 +28,11 @@ const styles = {
   },
 };
 
-interface MovieCardProps {
-  movie: BaseMovieProps;
-  action: (m: BaseMovieProps) => React.ReactNode;
+interface TvCardProps {
+  movie: TVSeriesProps;
+  action: (m: TVSeriesProps) => React.ReactNode;
 }
-const MovieCard: React.FC<MovieCardProps> = ({movie, action}) => {
+const TvCard: React.FC<TvCardProps> = ({movie, action}) => {
   const { favourites, addToFavourites } = useContext(MoviesContext);//NEW
 
 const isFavourite = favourites.find((id) => id === movie.id)? true : false;//NEW
@@ -50,7 +50,7 @@ const isFavourite = favourites.find((id) => id === movie.id)? true : false;//NEW
         }
         title={
           <Typography variant="h6" component="p">
-            {movie.title}{" "}
+            {movie.name}{" "}
           </Typography>
         }
       />
@@ -68,7 +68,7 @@ const isFavourite = favourites.find((id) => id === movie.id)? true : false;//NEW
           <Grid item xs={6}>
             <Typography variant="h6" component="p">
               <CalendarIcon fontSize="small" />
-              {movie.release_date}
+              {movie.first_air_date}
             </Typography>
           </Grid>
           <Grid item xs={5}>
@@ -92,4 +92,4 @@ const isFavourite = favourites.find((id) => id === movie.id)? true : false;//NEW
   );
 }
 
-export default MovieCard;
+export default TvCard;

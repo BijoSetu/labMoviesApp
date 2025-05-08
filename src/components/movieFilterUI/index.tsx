@@ -3,6 +3,7 @@ import FilterCard from "../filterMoviesCard";
 import Fab from "@mui/material/Fab";
 import Drawer from "@mui/material/Drawer";
 import { BaseMovieProps } from "../../types/interfaces";
+import { TVSeriesProps } from "../../types/interfaces";
 
 export const titleFilter = (movie: BaseMovieProps, value: string): boolean => {
     return movie.title.toLowerCase().search(value.toLowerCase()) !== -1;
@@ -13,6 +14,15 @@ export const genreFilter = (movie: BaseMovieProps, value: string) => {
     const genreIds = movie.genre_ids;
     return genreId > 0 && genreIds ? genreIds.includes(genreId) : true;
 };
+
+export const titleFilterTv = (series: TVSeriesProps, value: string): boolean => {
+    return series.name.toLowerCase().includes(value.toLowerCase());
+  };
+  
+  export const genreFilterTv = (series: TVSeriesProps, value: string): boolean => {
+    const genreId = Number(value);
+    return genreId > 0 && series.genre_ids ? series.genre_ids.includes(genreId) : true;
+  };
 
 const styles = {
     root: {

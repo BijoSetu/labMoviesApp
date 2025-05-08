@@ -23,6 +23,11 @@ export interface BaseMovieProps {
     action: (m: BaseMovieProps) => React.ReactNode;
   }
 
+  export interface BaseTvListProps {
+    movies: TVSeriesProps[];
+    action: (m: TVSeriesProps) => React.ReactNode;
+  }
+
   export interface MovieDetailsProps extends BaseMovieProps {
     genres: {
       id: number;
@@ -56,6 +61,10 @@ export interface BaseMovieProps {
     title: string;
   }
   
+
+  export interface TvListPageTemplateProps extends BaseTvListProps { title: string;
+  }
+
   export interface Review{
     id: string;
     content: string
@@ -85,4 +94,18 @@ export interface BaseMovieProps {
     agree: boolean,
     rating: number,
     movieId: number,
+  }
+
+  export interface TVSeriesProps {
+    id: number;
+    name: string;
+    overview: string;
+    popularity: number;
+    poster_path?: string;
+    first_air_date: string;
+    vote_average: number;
+    vote_count: number;
+    genre_ids: number[];
+    origin_country: string[];
+    original_language: string;
   }
