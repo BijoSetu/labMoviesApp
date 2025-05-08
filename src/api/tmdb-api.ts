@@ -43,6 +43,21 @@ export const getTvSeries = () => {
  });
    }
 
+   
+export const getTvSeriesDetails = (id:String) => {
+  return fetch(
+    `https://api.themoviedb.org/3/tv/${id}?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US`
+  ).then((response) => {
+    if (!response.ok) {
+      throw new Error(`Failed to get movie data. Response status: ${response.status}`);
+    }
+    return response.json();
+  }) .then((json) => json.results)
+  .catch((error) => {
+    throw error
+ });
+   }
+
 
 export const getPopularMovies = () => {
   return fetch(
@@ -119,12 +134,12 @@ export const getPopularMovies = () => {
   export const getActors =()=> {
 
     return fetch(
-      `https://api.themoviedb.org/3/movie/upcoming?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&page=1`
+      `https://api.themoviedb.org/3/person/popular?api_key=${import.meta.env.VITE_TMDB_KEY}`
     ).then((response) => {
       if (!response.ok)
         throw new Error(`Unable to fetch movies. Response status: ${response.status}`);
       return response.json();
-    })
+    }).then((json) => json.results)
       .catch((error) => {
         throw error
       });
