@@ -66,6 +66,7 @@ const styles: Record<string, SxProps<Theme>> = {
     marginBottom: "1rem",
   },
 };
+// register page added
 
 const RegisterPage: React.FC = () => {
   const navigate = useNavigate();
