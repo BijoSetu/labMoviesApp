@@ -82,7 +82,7 @@ const isFavourite = favourites.find((id) => id === movie.id)? true : false;//NEW
       <CardActions disableSpacing>
       {action(movie)}
 
-        <Link to={`/movies/${movie.id}`}>
+        <Link to={`/tv/${movie.id}`}>
           <Button variant="outlined" size="medium" color="primary">
             More Info ...
           </Button>

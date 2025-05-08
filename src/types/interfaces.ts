@@ -40,9 +40,11 @@ export interface BaseMovieProps {
 
   }
 
+ 
+
   export interface MovieImage {
     file_path: string;
-    aspect_ratio?: number; //some props are optional...
+    aspect_ratio?: number; 
     height?: number;
     iso_639_1?: string;
     vote_average?: number;
@@ -62,7 +64,7 @@ export interface BaseMovieProps {
   }
   
 
-  export interface TvListPageTemplateProps extends BaseTvListProps { title: string;
+  export interface TvListPageTemplateProps extends BaseTvListProps { title: string;children?: React.ReactNode;
   }
 
   export interface Review{
@@ -111,6 +113,16 @@ export interface BaseMovieProps {
   }
 
 
+  export interface SignInFormData {
+    username: string;
+    password: string;
+  }
+  
+  export interface SignInResults {
+    message: string;
+    token: string;
+  }
+  
   export interface ActorProps {
     adult: boolean;
     gender: number;
