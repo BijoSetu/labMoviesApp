@@ -12,6 +12,7 @@ import ratings from "./ratingCategories";
 import { BaseMovieProps, Review } from "../../types/interfaces";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
+import { postReview } from "../../api/aws-api";
 
 
 const ReviewForm: React.FC<BaseMovieProps> = (movie) => {
@@ -47,14 +48,27 @@ const ReviewForm: React.FC<BaseMovieProps> = (movie) => {
         setOpen(false);
         navigate("/movies/favourites");
       };
-    
+       
      
-      const onSubmit: SubmitHandler<Review> = (review) => {
-        review.movieId = movie.id;
-        review.rating = rating;
-        context.addReview(movie, review);
-        setOpen(true); // NEW
-        // console.log(review);
+      const onSubmit: SubmitHandler<Review> = async (review) => {
+        const ratingLabel = ratings.find((r) => r.value === review.rating)?.label || "Unknown";
+        const reviewData = {
+          Author: review.author,
+          ReviewText: review.content,
+          Rating: ratingLabel,
+          MovieName: movie.title, 
+          PhotoUrl : movie.poster_path!!,
+        };
+      
+        try {
+          console.log("Calling postReview with data:", reviewData); // Debugging log
+          const result = await postReview(reviewData); // Call the postReview function
+          console.log("Review posted successfully:", result); // Debugging log
+          setOpen(true); // Show success snackbar
+        } catch (error) {
+          setOpen(true);
+          console.error("Failed to post review:", error); // Debugging log
+        }
       };
     
 
@@ -165,6 +179,7 @@ const ReviewForm: React.FC<BaseMovieProps> = (movie) => {
                 variant="contained"
                 color="primary"
                 sx={styles.submit}
+               
               >
                 Submit
               </Button>

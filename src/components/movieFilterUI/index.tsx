@@ -15,14 +15,14 @@ export const genreFilter = (movie: BaseMovieProps, value: string) => {
     return genreId > 0 && genreIds ? genreIds.includes(genreId) : true;
 };
 
-export const titleFilterTv = (series: TVSeriesProps, value: string): boolean => {
-    return series.name.toLowerCase().includes(value.toLowerCase());
-  };
+// export const titleFilterTv = (series: TVSeriesProps, value: string): boolean => {
+//     return series.name.toLowerCase().includes(value.toLowerCase());
+//   };
   
-  export const genreFilterTv = (series: TVSeriesProps, value: string): boolean => {
-    const genreId = Number(value);
-    return genreId > 0 && series.genre_ids ? series.genre_ids.includes(genreId) : true;
-  };
+//   export const genreFilterTv = (series: TVSeriesProps, value: string): boolean => {
+//     const genreId = Number(value);
+//     return genreId > 0 && series.genre_ids ? series.genre_ids.includes(genreId) : true;
+//   };
 
 const styles = {
     root: {

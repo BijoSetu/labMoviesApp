@@ -17,6 +17,8 @@ import ActorsPage from "./pages/actorsPage";
 import TvDetailsPage from "./pages/tvDetailsPage";
 import  {UserProvider} from "./contexts/registerContext";
 import RegisterPage from "./pages/registerPage";
+import ReviewsPage from "./pages/reviewsPage";
+import AddFantasyMoviePage from "./pages/fantasyMoviePage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -52,6 +54,8 @@ const App = () => {
         <Route path="/tv/:id" element={<TvDetailsPage/>} />
         <Route path="/tv/reviews/:id" element={<MovieReviewPage/>} />
         <Route path="/login" element={<RegisterPage/>} />
+        <Route path="/movie/reviews" element={<ReviewsPage />} />
+        <Route path="/movie/fantasymovie" element={<AddFantasyMoviePage />} />
       </Routes> 
         </MoviesContextProvider>
         </UserProvider>

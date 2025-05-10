@@ -14,7 +14,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 
 const styles = {
     title: {
-      flexGrow: 1,
+      flexGrow: 0.5,
     },
   };
 
@@ -22,7 +22,7 @@ const Offset = styled("div")(({ theme }) => theme.mixins.toolbar);
 
 const SiteHeader: React.FC = () => {
   const navigate = useNavigate();
-  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement|null>(null);
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const open = Boolean(anchorEl);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
@@ -34,6 +34,8 @@ const SiteHeader: React.FC = () => {
     { label: "Popular movies", path: "/movies/popular" },
     { label: "TV Series", path: "/tv" },
     { label: "Actors", path: "/actors" },
+    { label: "Reviews", path: "/movie/reviews" },
+    { label: "FantasyMovie", path: "/movie/fantasymovie" },
     { label: "Logout", path: "/login" },
   ];
 
@@ -45,66 +47,45 @@ const SiteHeader: React.FC = () => {
     setAnchorEl(event.currentTarget);
   };
 
+
   return (
     <>
       <AppBar position="fixed" elevation={0} color="primary">
-        <Toolbar>
-          <Typography variant="h4" sx={styles.title}>
-            TMDB Client
-          </Typography>
+        <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
           <Typography variant="h6" sx={styles.title}>
-            All you ever wanted to know about Movies!
+            The MovieTube
           </Typography>
-          {isMobile ? (
-            <>
-              <IconButton
-                aria-label="menu"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleMenu}
+          {/* <Typography variant="h6" sx={styles.title}>
+            All you ever wanted to know about Movies!
+          </Typography> */}
+          <>
+            {menuOptions.map((opt) => (
+              <Button
+                key={opt.label}
                 color="inherit"
-                size="large"
+                onClick={() => handleMenuSelect(opt.path)}
+                sx={
+                  opt.label === "Logout"
+                    ? {
+                        fontWeight: "bold",
+                        color: "white",
+                        backgroundColor: "red", // Red background for Logout
+                        borderRadius: "8px",
+                        padding: "0.2rem 0.6rem",
+                        marginLeft: "0.5rem", // Add spacing between buttons
+                        "&:hover": {
+                          backgroundColor: "darkred", // Darker red on hover
+                        },
+                      }
+                    : {
+                        marginLeft: "0rem", // Add spacing between buttons
+                      }
+                }
               >
-                <MenuIcon />
-              </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                open={open}
-                onClose={() => setAnchorEl(null)}
-              >
-                {menuOptions.map((opt) => (
-                  <MenuItem
-                    key={opt.label}
-                    onClick={() => handleMenuSelect(opt.path)}
-                  >
-                    {opt.label}
-                  </MenuItem>
-                ))}
-              </Menu>
-            </>
-          ) : (
-            <>
-              {menuOptions.map((opt) => (
-                <Button
-                  key={opt.label}
-                  color="inherit"
-                  onClick={() => handleMenuSelect(opt.path)}
-                >
-                  {opt.label}
-                </Button>
-              ))}
-            </>
-          )}
+                {opt.label}
+              </Button>
+            ))}
+          </>
         </Toolbar>
       </AppBar>
       <Offset />

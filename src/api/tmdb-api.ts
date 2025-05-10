@@ -93,7 +93,6 @@ export const getPopularMovies = () => {
         "&language=en-US"
     )
       .then(res => res.json())
-      .then(json => json.genres);
   };
   
   export const getMovieImages = (id: string | number) => {
@@ -109,6 +108,7 @@ export const getPopularMovies = () => {
         throw error
       });
   };
+ 
   
 
   export const getMovieReviews = (id: string | number) => { //movie id can be string or number
@@ -157,3 +157,5 @@ export const getPopularMovies = () => {
         throw error
       });
   }
+
+  
