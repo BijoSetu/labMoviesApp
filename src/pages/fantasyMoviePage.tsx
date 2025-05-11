@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Box, TextField, Button, Typography, Grid, Card, CardContent } from "@mui/material";
+import { postFantasyMovie } from "../api/aws-api"; // Adjust the import path as necessary
 
 const styles = {
   formContainer: {
@@ -38,7 +39,7 @@ const AddFantasyMoviePage: React.FC = () => {
     productionCompany: "",
   });
 
-  const [fantasyMovies, setFantasyMovies] = useState<FantasyMovie[]>([]);
+  const [fantasyMovies, setFantasyMovies] = useState<FantasyMovie[]>([]); // Local state to store added movies
   const [submitted, setSubmitted] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -48,20 +49,35 @@ const AddFantasyMoviePage: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
 
-    // Simulate backend submission and fetching fantasy movies
-    const newFantasyMovies = [
-      {
-        title: "The Hobbit",
-        overview: "A fantasy adventure about a hobbit's journey.",
-        genres: "Fantasy, Adventure",
-        releaseDate: "2012-12-14",
-        runtime: "169 minutes",
-        productionCompany: "Warner Bros.",
-      },
-    ];
-    setFantasyMovies(newFantasyMovies);
+    const fantasyMovieData = {
+      Title: formData.title,
+      Overview: formData.overview,
+      Genres: formData.genres,
+      ReleaseDate: formData.releaseDate,
+      Runtime:  Number(formData.runtime),
+      ProductionCompany: formData.productionCompany,
+    };
+
+    try {
+      console.log("Calling postFantasyMovie with data:", fantasyMovieData); // Debugging log
+      const result = await postFantasyMovie(fantasyMovieData); // Call the postFantasyMovie function
+      console.log("Fantasy movie posted successfully:", result); // Debugging log
+
+      // Update the fantasyMovies state with the newly added movie
+      setFantasyMovies((prevMovies) => [...prevMovies, formData]); // Add the current form data to the list
+      setFormData({
+        title: "",
+        overview: "",
+        genres: "",
+        releaseDate: "",
+        runtime: "",
+        productionCompany: "",
+      }); // Reset the form
+      setSubmitted(true); // Indicate successful submission
+    } catch (error) {
+      console.error("Failed to post fantasy movie:", error); // Debugging log
+    }
   };
 
   return (

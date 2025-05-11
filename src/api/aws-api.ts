@@ -46,3 +46,29 @@ export const getReviews = async () => {
       throw error;
     }
   };
+
+
+  export const postFantasyMovie = async (fantasyMovie:{}) => {
+    try {
+      console.log("Sending fantasyMovie to API:", fantasyMovie); // Debugging log
+      const response = await fetch("https://en33e9gbnl.execute-api.eu-west-1.amazonaws.com/dev/fantasy-movie", {
+        method: "POST",
+        mode: 'no-cors',
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(fantasyMovie),
+      });
+  
+      if (!response.ok) {
+        throw new Error(`Failed to post fantasyMovie. Status: ${response.status}`);
+      }
+  
+      const result = await response.json();
+      console.log("fantasyMovie successfully posted:", result);
+      return result;
+    } catch (error) {
+      console.error("Error posting fantasyMovie:", error);
+      throw error;
+    }
+  };

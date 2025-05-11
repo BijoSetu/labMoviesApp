@@ -2,30 +2,31 @@ import React, { useState, MouseEvent } from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import IconButton from "@mui/material/IconButton";
 import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
-import MenuIcon from "@mui/icons-material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import Menu from "@mui/material/Menu";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
 const styles = {
-    title: {
-      flexGrow: 0.5,
-    },
-  };
+  title: {
+    flexGrow: 0.5,
+  },
+};
 
 const Offset = styled("div")(({ theme }) => theme.mixins.toolbar);
 
 const SiteHeader: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation(); // Get the current route
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const open = Boolean(anchorEl);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
+
+  // Define routes where the header should not be displayed
+  const hideHeaderRoutes = ["/login"];
+  const shouldShowHeader = !hideHeaderRoutes.includes(location.pathname);
 
   const menuOptions = [
     { label: "Home", path: "/" },
@@ -47,6 +48,9 @@ const SiteHeader: React.FC = () => {
     setAnchorEl(event.currentTarget);
   };
 
+  if (!shouldShowHeader) {
+    return null; // Do not render the header if the current route is in hideHeaderRoutes
+  }
 
   return (
     <>
@@ -55,9 +59,6 @@ const SiteHeader: React.FC = () => {
           <Typography variant="h6" sx={styles.title}>
             The MovieTube
           </Typography>
-          {/* <Typography variant="h6" sx={styles.title}>
-            All you ever wanted to know about Movies!
-          </Typography> */}
           <>
             {menuOptions.map((opt) => (
               <Button
