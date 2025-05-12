@@ -51,13 +51,25 @@ const AddFantasyMoviePage: React.FC = () => {
     e.preventDefault();
 
     const fantasyMovieData = {
+      MovieId : (Date.now() % 10000),
       Title: formData.title,
       Overview: formData.overview,
       Genres: formData.genres,
       ReleaseDate: formData.releaseDate,
-      Runtime:  Number(formData.runtime),
+      Runtime: formData.runtime,
       ProductionCompany: formData.productionCompany,
     };
+
+//     const fantasyMovie = {
+//    MovieId:4343,
+//   Title: "Test Title",
+//   Overview: "Test Overview",
+//   Genres: "Adventure",
+//   ReleaseDate: "2024-01-01",
+//   Runtime: "120",
+//   ProductionCompany: "Test Co"
+// };
+
 
     try {
       console.log("Calling postFantasyMovie with data:", fantasyMovieData); // Debugging log
@@ -76,6 +88,7 @@ const AddFantasyMoviePage: React.FC = () => {
       }); // Reset the form
       setSubmitted(true); // Indicate successful submission
     } catch (error) {
+      setSubmitted(true);
       console.error("Failed to post fantasy movie:", error); // Debugging log
     }
   };

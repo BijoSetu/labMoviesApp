@@ -24,7 +24,7 @@ export const getReviews = async () => {
 
   export const postReview = async (review:{}) => {
     try {
-      console.log("Sending review to API:", review); // Debugging log
+      console.log("Sending review to API:", review);
       const response = await fetch("https://en33e9gbnl.execute-api.eu-west-1.amazonaws.com/dev/reviews", {
         method: "POST",
         mode: 'no-cors',
@@ -53,7 +53,7 @@ export const getReviews = async () => {
       console.log("Sending fantasyMovie to API:", fantasyMovie); // Debugging log
       const response = await fetch("https://en33e9gbnl.execute-api.eu-west-1.amazonaws.com/dev/fantasy-movie", {
         method: "POST",
-        mode: 'no-cors',
+        // mode: 'no-cors',
         headers: {
           "Content-Type": "application/json",
         },
