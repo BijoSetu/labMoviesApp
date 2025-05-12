@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import PageTemplate from "../components/templateMovieListPage";
-import {getUpcomingMovies } from "../api/tmdb-api";
+import { getUpcomingMovies } from "../api/tmdb-api";
 import useFiltering from "../hooks/useFiltering";
 import MovieFilterUI, {
   titleFilter,
@@ -9,10 +9,9 @@ import MovieFilterUI, {
 import { DiscoverMovies } from "../types/interfaces";
 import { useQuery } from "react-query";
 import Spinner from "../components/spinner";
-import AddToPlaylistIcon from '../components/cardIcons/playListIcon'
-import { BaseMovieProps  } from "../types/interfaces";
-
-
+import AddToPlaylistIcon from "../components/cardIcons/playListIcon";
+import Pagination from "../components/pagination"; // Import Pagination
+import { BaseMovieProps } from "../types/interfaces";
 
 const titleFiltering = {
   name: "title",
@@ -25,11 +24,19 @@ const genreFiltering = {
   condition: genreFilter,
 };
 
-const HomePage: React.FC = () => {
-  const { data, error, isLoading, isError } = useQuery<DiscoverMovies, Error>("upcomingMovies", getUpcomingMovies);
-  const { filterValues, setFilterValues, filterFunction } = useFiltering(
-    [titleFiltering, genreFiltering]
+const UpcomingMoviesPage: React.FC = () => {
+  const [currentPage, setCurrentPage] = useState(1); // Track current page
+  const [totalPages, setTotalPages] = useState(1); // Track total pages
+
+  const { data, error, isLoading, isError } = useQuery<DiscoverMovies, Error>(
+    ["upcomingMovies", currentPage], // Pass currentPage as a dependency
+    () => getUpcomingMovies(currentPage) // Fetch movies for the current page
   );
+
+  const { filterValues, setFilterValues, filterFunction } = useFiltering([
+    titleFiltering,
+    genreFiltering,
+  ]);
 
   if (isLoading) {
     return <Spinner />;
@@ -38,7 +45,6 @@ const HomePage: React.FC = () => {
   if (isError) {
     return <h1>{error.message}</h1>;
   }
-
 
   const changeFilterValues = (type: string, value: string) => {
     const changedFilter = { name: type, value: value };
@@ -52,10 +58,14 @@ const HomePage: React.FC = () => {
   const movies = data ? data.results : [];
   const displayedMovies = filterFunction(movies);
 
+  // Update total pages from API response
+  if (data && data.total_pages !== totalPages) {
+    setTotalPages(data.total_pages);
+  }
+
   // Redundant, but necessary to avoid app crashing.
-  const favourites = movies.filter(m => m.favourite)
+  const favourites = movies.filter((m) => m.favourite);
   localStorage.setItem("favourites", JSON.stringify(favourites));
-  // const addToFavourites = (movieId: number) => true;
 
   return (
     <>
@@ -63,7 +73,7 @@ const HomePage: React.FC = () => {
         title="Upcoming Movies"
         movies={displayedMovies}
         action={(movie: BaseMovieProps) => {
-          return <AddToPlaylistIcon {...movie} />
+          return <AddToPlaylistIcon {...movie} />;
         }}
       />
       <MovieFilterUI
@@ -71,9 +81,16 @@ const HomePage: React.FC = () => {
         titleFilter={filterValues[0].value}
         genreFilter={filterValues[1].value}
       />
+      {/* Add Pagination Component */}
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={(page) => setCurrentPage(page)} // Update current page
+      />
     </>
   );
 };
-export default HomePage;
+
+export default UpcomingMoviesPage;
 
 // caching already done for upcoming movies page
